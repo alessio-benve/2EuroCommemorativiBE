@@ -69,4 +69,11 @@ public class UtenteController {
 		return utenteService.trovaUtenteDaUsername(richiesta);
 	}
 	
+	@PostMapping("/utente/recuperaCredenziali")
+	public boolean recuperaCredenziali(@Valid @RequestBody Utente utenteDaRecuperare) {
+		return utenteService.recuperaCredenziali(utenteDaRecuperare);
+	}
+		
+	
+	
 }

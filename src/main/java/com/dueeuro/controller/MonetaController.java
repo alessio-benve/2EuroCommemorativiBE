@@ -35,7 +35,7 @@ public class MonetaController {
 	public Object aggiungiMoneta(@RequestParam("image") MultipartFile file,
 			@RequestParam("moneta") String moneta) throws IOException {
 		System.out.println(moneta.toString());
-		return monetaService.aggiungiMoneta(file,moneta);		
+		return monetaService.aggiungiMoneta (file,moneta);		
 		
 	}
 	@Secured({"ROLE_TESTER","ROLE_ADMIN"})
