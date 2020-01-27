@@ -57,7 +57,7 @@ public class UtenteController {
 		return utenteService.rimuoviUtente(utente);
 	}
 	
-	@Secured({"ROLE_ADMIN"})
+	@Secured({"ROLE_ADMIN","ROLE_TESTER"})
 	@GetMapping("/utente/lista")
 	public List<Utente> leggiUtenti(){
 		return utenteService.leggiUtenti();

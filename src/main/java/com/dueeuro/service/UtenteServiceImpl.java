@@ -117,7 +117,7 @@ public class UtenteServiceImpl implements UserDetailsService, UtenteService {
 	public boolean disattivaUtente(Utente utente) {
 		Utente utenteDaDisattivare = utenteRepository.findByUsername(utente.getUsername());
 		if (utenteDaDisattivare != null) {
-			utenteDaDisattivare.setEnable(false);
+			utenteDaDisattivare.setEnable(!utente.getEnable());
 			utenteRepository.save(utenteDaDisattivare);
 			return true;
 		}
