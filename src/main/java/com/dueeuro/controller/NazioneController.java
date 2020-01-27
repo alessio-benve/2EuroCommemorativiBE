@@ -18,7 +18,7 @@ import com.dueeuro.entities.Nazione;
 import com.dueeuro.service.NazioneService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RequestMapping(path = "/api/v1")
 public class NazioneController {
 	@Autowired

@@ -2,7 +2,6 @@ package com.dueeuro.service;
 
 import java.util.List;
 
-import javax.validation.Valid;
 
 import org.springframework.http.HttpEntity;
 

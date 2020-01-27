@@ -23,7 +23,7 @@ import com.dueeuro.entities.Moneta;
 import com.dueeuro.service.MonetaService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RequestMapping(path = "/api/v1")
 public class MonetaController {
 	

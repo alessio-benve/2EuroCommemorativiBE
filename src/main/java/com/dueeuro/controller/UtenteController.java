@@ -18,7 +18,7 @@ import com.dueeuro.entities.Utente;
 import com.dueeuro.service.UtenteService;
 
 @RestController
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
 @RequestMapping("/api/v1")
 public class UtenteController {
 	

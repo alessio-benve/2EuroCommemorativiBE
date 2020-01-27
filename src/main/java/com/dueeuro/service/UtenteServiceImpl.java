@@ -2,12 +2,14 @@ package com.dueeuro.service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.RandomStringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -36,6 +38,7 @@ public class UtenteServiceImpl implements UserDetailsService, UtenteService {
 	@Autowired
 	private RuoloRepository ruoloRepository;
 	@Autowired
+	@Qualifier("passwordEncoder")
 	private BCryptPasswordEncoder passwordEncoder;
 	@Autowired
 	private EmailSender emailSender;
@@ -164,7 +167,7 @@ public class UtenteServiceImpl implements UserDetailsService, UtenteService {
 		if(utenteRecuperatoDaEmail!=null && utenteRecuperatoDaUsername!=null) {
 			if(utenteRecuperatoDaEmail.getUsername().equals(utenteRecuperatoDaUsername.getUsername())) {
 				//TODO utente trovato da username e email combacianti, settare nuova password e inviarla via mail
-				String result = RandomStringUtils.randomAlphabetic(15);
+				String result = randomPassword();
 				utenteRecuperatoDaEmail.setPassword(passwordEncoder.encode(result));
 				System.out.println(utenteRecuperatoDaEmail.toString()+" Password chiara: "+result);
 				utenteRepository.save(utenteRecuperatoDaEmail);
@@ -177,7 +180,7 @@ public class UtenteServiceImpl implements UserDetailsService, UtenteService {
 		}
 		
 		if(utenteRecuperatoDaUsername!=null) {
-			String result = RandomStringUtils.randomAlphabetic(15);
+			String result = randomPassword();
 			utenteRecuperatoDaUsername.setPassword(passwordEncoder.encode(result));
 			System.out.println(utenteRecuperatoDaUsername.toString()+" Password chiara: "+result);
 			utenteRepository.save(utenteRecuperatoDaUsername);
@@ -185,7 +188,7 @@ public class UtenteServiceImpl implements UserDetailsService, UtenteService {
 			return true;
 		}
 		if(utenteRecuperatoDaEmail!=null) {
-			String result = RandomStringUtils.randomAlphabetic(15);
+			String result = randomPassword();
 			utenteRecuperatoDaEmail.setPassword(passwordEncoder.encode(result));
 			System.out.println(utenteRecuperatoDaEmail.toString()+" Password chiara: "+result);
 			utenteRepository.save(utenteRecuperatoDaEmail);
@@ -224,5 +227,17 @@ public class UtenteServiceImpl implements UserDetailsService, UtenteService {
 		email.setTesto(corpo);
 		emailSender.inviaEmail(email);		
 	}
+	
+	public static String randomPassword() {
+		int leftLimit = 65; // letter 'A'
+		int rightLimit = 90; // letter 'Z'
+		int targetStringLength = 8;
+		Random random = new Random();
+
+		String generatedString = random.ints(leftLimit, rightLimit + 1).limit(targetStringLength)
+				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+		return generatedString;
+	}
+
 
 }
