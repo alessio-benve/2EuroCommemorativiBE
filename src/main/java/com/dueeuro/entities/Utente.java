@@ -48,6 +48,29 @@ public class Utente implements Serializable{
 	@JoinTable(name = "utenti_ruoli"
 	,joinColumns = @JoinColumn(name="utente_id"),inverseJoinColumns = @JoinColumn(name = "ruolo_id"))
 	private List<Ruolo> ruoli;
+	
+	
+
+	public Utente() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+	public Utente(String username, String password, String email, String nome, String cognome, Boolean enable,
+			List<Ruolo> ruoli) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.enable = enable;
+		this.ruoli = ruoli;
+	}
+
+
 
 	public String getEmail() {
 		return email;

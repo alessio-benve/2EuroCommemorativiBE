@@ -43,6 +43,12 @@ public class UtenteController {
 		return utenteService.modificaUtente(utente);
 	}
 	
+	@Secured({"ROLE_ADMIN"})
+	@PostMapping("/utente/modificaFull")
+	public Utente modificaUtenteFull(@Valid @RequestBody Utente utente) {
+		return utenteService.modificaUtenteFull(utente);
+	}
+	
 	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_TESTER"})
 	@PostMapping("utente/disattiva")
 	public boolean disattivaUtente(@Valid @RequestBody Utente utente) {

@@ -1,10 +1,12 @@
 package com.dueeuro.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -237,6 +239,34 @@ public class UtenteServiceImpl implements UserDetailsService, UtenteService {
 		String generatedString = random.ints(leftLimit, rightLimit + 1).limit(targetStringLength)
 				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
 		return generatedString;
+	}
+
+	@Override
+	public Utente modificaUtenteFull(Utente utente) {
+		// TODO Auto-generated method stub
+		Utente utenteDaModificare=null;
+		utenteDaModificare=utenteRepository.findByUsername(utente.getUsername());
+		if(utenteDaModificare!=null) {
+			utenteDaModificare.setCognome(utente.getCognome());
+			utenteDaModificare.setEmail(utente.getEmail());
+			utenteDaModificare.setEnable(utente.getEnable());
+			utenteDaModificare.setNome(utente.getNome());
+			utenteDaModificare.setUsername(utente.getUsername());
+			//TODO set password se diversa dalla precedente;
+			String passwordChiara=randomPassword();
+			if(!utenteDaModificare.getPassword().equals(utente.getPassword())) {
+				utenteDaModificare.setPassword(passwordEncoder.encode(passwordChiara));
+			}
+			//TODO set ruoli, se diversi;
+			List<Ruolo>ruoli=new ArrayList<>();
+			for(Ruolo r:utente.getRuoli()) {
+				ruoli.add(ruoloRepository.findRuoloByNomeRuolo(r.getNomeRuolo()));
+			}
+			if(ruoli.size()!=0) utenteDaModificare.setRuoli(ruoli);
+			return utenteRepository.save(utenteDaModificare);
+			
+		}
+		return null;
 	}
 
 

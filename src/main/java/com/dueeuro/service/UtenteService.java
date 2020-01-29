@@ -2,6 +2,7 @@ package com.dueeuro.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
 
 import org.springframework.http.HttpEntity;
 
@@ -17,5 +18,6 @@ public interface UtenteService {
 	public List<Utente> leggiUtenti();
 	public Utente trovaUtenteDaUsername(HttpEntity<String> richiesta);
 	public boolean recuperaCredenziali(Utente utenteDaRecuperare);
+	public Utente modificaUtenteFull( Utente utente);
 
 }
