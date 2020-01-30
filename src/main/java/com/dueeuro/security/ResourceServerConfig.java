@@ -31,12 +31,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 	@Bean
 	public CorsConfigurationSource cosrsConfigurationSource() {
 		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowedOrigins(Arrays.asList("**")); // indirizzo del client
+		config.setAllowedOrigins(Arrays.asList("https://2eurocommemorativi.netlify.com")); // indirizzo del client
 		config.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
 		config.setAllowCredentials(true);
 		config.setAllowedHeaders(Arrays.asList("Content-Type","Authorization"));		
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("**", config);
+		source.registerCorsConfiguration("/**", config);
 		return source;
 	}
 	
