@@ -36,7 +36,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		config.setAllowCredentials(true);
 		config.setAllowedHeaders(Arrays.asList("Content-Type","Authorization"));		
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", config);
+		source.registerCorsConfiguration("**", config);
 		return source;
 	}
 	
