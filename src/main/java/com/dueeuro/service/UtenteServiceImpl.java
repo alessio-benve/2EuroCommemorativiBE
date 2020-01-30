@@ -168,7 +168,7 @@ public class UtenteServiceImpl implements UserDetailsService, UtenteService {
 		if(utenteDaRecuperare.getUsername()!=null && utenteDaRecuperare.getEmail()!=null) {
 		if(utenteRecuperatoDaEmail!=null && utenteRecuperatoDaUsername!=null) {
 			if(utenteRecuperatoDaEmail.getUsername().equals(utenteRecuperatoDaUsername.getUsername())) {
-				//TODO utente trovato da username e email combacianti, settare nuova password e inviarla via mail
+				//TODOSOLVED utente trovato da username e email combacianti, settare nuova password e inviarla via mail
 				String result = randomPassword();
 				utenteRecuperatoDaEmail.setPassword(passwordEncoder.encode(result));
 				System.out.println(utenteRecuperatoDaEmail.toString()+" Password chiara: "+result);
@@ -242,8 +242,7 @@ public class UtenteServiceImpl implements UserDetailsService, UtenteService {
 	}
 
 	@Override
-	public Utente modificaUtenteFull(Utente utente) {
-		// TODO Auto-generated method stub
+	public Utente modificaUtenteFull(Utente utente) {		
 		Utente utenteDaModificare=null;
 		utenteDaModificare=utenteRepository.findByUsername(utente.getUsername());
 		if(utenteDaModificare!=null) {
@@ -251,20 +250,39 @@ public class UtenteServiceImpl implements UserDetailsService, UtenteService {
 			utenteDaModificare.setEmail(utente.getEmail());
 			utenteDaModificare.setEnable(utente.getEnable());
 			utenteDaModificare.setNome(utente.getNome());
-			utenteDaModificare.setUsername(utente.getUsername());
-			//TODO set password se diversa dalla precedente;
-			String passwordChiara=randomPassword();
+			utenteDaModificare.setUsername(utente.getUsername());			
+			String passwordChiara=null;			
 			if(!utenteDaModificare.getPassword().equals(utente.getPassword())) {
+				passwordChiara=randomPassword();
 				utenteDaModificare.setPassword(passwordEncoder.encode(passwordChiara));
-			}
-			//TODO set ruoli, se diversi;
+				//System.out.println(passwordChiara);
+			}			
 			List<Ruolo>ruoli=new ArrayList<>();
 			for(Ruolo r:utente.getRuoli()) {
+				//System.out.println(r.getNomeRuolo());
 				ruoli.add(ruoloRepository.findRuoloByNomeRuolo(r.getNomeRuolo()));
 			}
 			if(ruoli.size()!=0) utenteDaModificare.setRuoli(ruoli);
-			return utenteRepository.save(utenteDaModificare);
-			
+			Utente utenteModificato=utenteRepository.save(utenteDaModificare);
+			if(utenteModificato.getUsername().equals(utenteDaModificare.getUsername())) {
+			EmailDto email=new EmailDto();
+			email.setDestinatario(utente.getEmail());
+			email.setOggetto("2EuroCommemorativi modifica manuale Credenziali");
+			if(passwordChiara==null) {
+				email.setTesto("Ciao "+utente.getUsername()+"\n\nil tuo account sul sito 2EuroCommemorativi è "
+						+ "stato modificato manualmente. Ecco i tuoi dati di accesso.\n\nUsername:"+utente.getUsername()+""
+								+ "\nPassword (non visibile dall'Admin):**Password NON Modificata, usa la tua vecchia password**\n\nSaluti\n2EuroCommemorativi");
+				
+			}
+			else {
+				email.setTesto("Ciao "+utente.getUsername()+"\n\nil tuo account sul sito 2EuroCommemorativi è "
+						+ "stato modificato manualmente. Ecco i tuoi dati di accesso.\n\nUsername:"+utente.getUsername()+""
+								+ "\nPassword (non visibile dall'Admin):"+passwordChiara+"\n\nSaluti\n2EuroCommemorativi");
+			}
+			System.out.println(email.getTesto());
+			emailSender.inviaEmail(email);
+			return utenteModificato;
+			}
 		}
 		return null;
 	}
