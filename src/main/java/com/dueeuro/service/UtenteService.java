@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.http.HttpEntity;
 
 import com.dueeuro.entities.Utente;
+import com.dueeuro.smtp.dto.EmailDto;
 
 public interface UtenteService {
 
@@ -19,5 +20,8 @@ public interface UtenteService {
 	public Utente trovaUtenteDaUsername(HttpEntity<String> richiesta);
 	public boolean recuperaCredenziali(Utente utenteDaRecuperare);
 	public Utente modificaUtenteFull( Utente utente);
+	public boolean inviaEmailARuoli(EmailDto emailDto);
+	public boolean inviaEmailAUtente(EmailDto emailDto);
+	public boolean contattaci(EmailDto emailDto);
 
 }

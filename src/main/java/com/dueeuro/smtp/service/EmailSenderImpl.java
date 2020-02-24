@@ -2,6 +2,8 @@ package com.dueeuro.smtp.service;
 
 import java.util.Properties;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -52,4 +54,8 @@ public class EmailSenderImpl implements EmailSender {
 		javaMailSender.send(message);
 		
 	}
+
+	
+	
+	
 }

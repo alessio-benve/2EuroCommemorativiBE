@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dueeuro.entities.Utente;
 import com.dueeuro.service.UtenteService;
+import com.dueeuro.smtp.dto.EmailDto;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/v1")
 public class UtenteController {
 	
@@ -79,6 +80,25 @@ public class UtenteController {
 	public boolean recuperaCredenziali(@Valid @RequestBody Utente utenteDaRecuperare) {
 		return utenteService.recuperaCredenziali(utenteDaRecuperare);
 	}
+	
+	@Secured({"ROLE_ADMIN"})
+	@PostMapping("/utente/mailRuoli")
+	public boolean inviaMailRuoli(@Valid @RequestBody EmailDto emailDto) {
+		return utenteService.inviaEmailARuoli(emailDto);
+	}
+	
+	@Secured({"ROLE_ADMIN"})
+	@PostMapping("/utente/mailUtente")
+	public boolean inviaMailUtente(@Valid @RequestBody EmailDto emailDto) {
+		return utenteService.inviaEmailAUtente(emailDto);
+	}
+	
+	@PostMapping("/utente/contattaci")
+	public boolean contattaci(@Valid @RequestBody EmailDto emailDto) {
+		return utenteService.contattaci(emailDto);
+	}
+	
+	
 		
 	
 	

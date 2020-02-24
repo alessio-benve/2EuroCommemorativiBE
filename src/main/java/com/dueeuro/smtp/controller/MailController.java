@@ -24,4 +24,6 @@ public class MailController {
 		emailSender.inviaEmail(emailDto);
 
 	}
+	
+	
 }
